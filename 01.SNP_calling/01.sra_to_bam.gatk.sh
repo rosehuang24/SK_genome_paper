@@ -5,7 +5,7 @@ module load sratoolkit/2.11.2
 module load fastqc/0.11.9
 module load trimmomatic/0.39
 module load bwa/0.7.17
-module load gatk/4.2.0.0
+module load gatk/4.0.2.0
 module load picard/2.25.1
 module load perl/5.34.0
 module load samtools/1.13
@@ -58,13 +58,13 @@ gatk ApplyBQSR -R $ref_genome -I $CRNTDIR/${indv}_dedup.bam --bqsr-recal-file $C
 mkdir -p $CRNTDIR/${indv}_raw_chrms_vcfs/
 RAWOUTPUTDIR=$CRNTDIR/${indv}_raw_chrms_vcfs
 
-gatk -Xmx20G HaplotypeCaller \
-             -R $ref_genome -I $CRNTDIR/${indv}_recal.bam \
-             -ERC BP_RESOLUTION \
-             -output-mode EMIT_ALL_SITES \
-             --dbsnp $dbsnp \
-             -O $RAWOUTPUTDIR/${indv}.raw.g.vcf.gz
-
+gatk --java-options "-Xmx20G" HaplotypeCaller \
+                     -R $ref_genome \
+                     -I $CRNTDIR/${indv}_recal.bam \
+                     -ERC BP_RESOLUTION \
+                     -output-mode EMIT_ALL_SITES \
+                     --dbsnp $dbsnp \
+                     -O $RAWOUTPUTDIR/${indv}_${SLURM_ARRAY_TASK_ID}.raw.g.vcf.gz
 
 
 
