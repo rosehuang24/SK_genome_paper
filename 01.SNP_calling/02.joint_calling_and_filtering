@@ -1,0 +1,33 @@
+#!/bin/bash
+
+source ~/.bash_profile
+module load gatk/4.0.2.0
+module load samtools/1.13
+module load picard/2.25.1
+module load htslib/1.12
+
+ref_genome=$REFDIR/Gallus_gallus.GRCg6a.dna.toplevel.fa
+ref_bwa=$REFDIR/RefSeq
+dbsnp=$REFDIR/newdbSNP.vcf.gz
+
+mkdir tmp_dir
+
+gatk --java-options "-Xmx20G"  GenomicsDBImport \ 
+	-R $ref_genome \
+	-V /<path>/indv1.g.vcf.gz \
+	#...
+	-V /<path>/indv107.g.vcf.gz \
+	--genomicsdb-workspace-path /<path>/my_database \
+	--tmp-dir=/<path>/tmp_dir \
+	--reader-threads 5
+   
+
+
+gatk --java-options "-Xmx20G"  GenotypeGVCFs -R $ref_genome \
+	-V gendb://my_database \
+	-O $OUTDIR/output.vcf.gz \
+	--tmp-dir=/<path>/tmp_dir 
+
+gatk SelectVariants -V $outputvcf -select-type SNP --restrict-alleles-to BIALLELIC -O $unfOUTDIR/biallelic_snp_${regionname}_unfiltered.vcf.gz
+
+gatk VariantFiltration -V $unfOUTDIR/biallelic_snp_${regionname}_unfiltered.vcf.gz -filter "DP < 4" --filter-name "DP4" -filter "QD < 4.0" --filter-name "QD4" -filter "QUAL < 30.0" --filter-name "QUAL30" -filter "SOR > 3.0" --filter-name "SOR3" -filter "FS > 60.0" --filter-name "FS60" -filter "MQ < 40.0" --filter-name "MQ40" -filter "MQRankSum < -12.5" --filter-name "MQRankSum-12.5" -filter "ReadPosRankSum < -8.0" --filter-name "ReadPosRankSum-8" -O $fOUTDIR/biallelic_snp_${regionname}_filtered.vcf
