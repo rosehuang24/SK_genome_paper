@@ -2,9 +2,9 @@
 
 source ~/.bash_profile
 module load gatk/4.0.2.0
-module load samtools/1.13
 module load picard/2.25.1
 module load htslib/1.12
+module load vcftools/0.1.16
 
 ref_genome=$REFDIR/Gallus_gallus.GRCg6a.dna.toplevel.fa
 ref_bwa=$REFDIR/RefSeq
@@ -28,6 +28,38 @@ gatk --java-options "-Xmx20G"  GenotypeGVCFs -R $ref_genome \
 	-O $OUTDIR/output.vcf.gz \
 	--tmp-dir=/<path>/tmp_dir 
 
-gatk SelectVariants -V $outputvcf -select-type SNP --restrict-alleles-to BIALLELIC -O $unfOUTDIR/biallelic_snp_${regionname}_unfiltered.vcf.gz
 
-gatk VariantFiltration -V $unfOUTDIR/biallelic_snp_${regionname}_unfiltered.vcf.gz -filter "DP < 4" --filter-name "DP4" -filter "QD < 4.0" --filter-name "QD4" -filter "QUAL < 30.0" --filter-name "QUAL30" -filter "SOR > 3.0" --filter-name "SOR3" -filter "FS > 60.0" --filter-name "FS60" -filter "MQ < 40.0" --filter-name "MQ40" -filter "MQRankSum < -12.5" --filter-name "MQRankSum-12.5" -filter "ReadPosRankSum < -8.0" --filter-name "ReadPosRankSum-8" -O $fOUTDIR/biallelic_snp_${regionname}_filtered.vcf
+outputvcf=$OUTDIR/output.vcf.gz
+
+gatk SelectVariants -V $outputvcf \
+		-select-type SNP \
+		--restrict-alleles-to BIALLELIC \
+		-O $unfiltered_OUTDIR/biallelic_snp_unfiltered.vcf.gz
+
+gatk VariantFiltration -V $unfiltered_OUTDIR/biallelic_snp_unfiltered.vcf.gz \
+		-filter "DP < 4" --filter-name "DP4" \
+		-filter "QD < 4.0" --filter-name "QD4" \
+		-filter "QUAL < 30.0" --filter-name "QUAL30" \
+		-filter "SOR > 3.0" --filter-name "SOR3" \
+		-filter "FS > 60.0" --filter-name "FS60" \
+		-filter "MQ < 40.0" --filter-name "MQ40" \
+		-filter "MQRankSum < -12.5" --filter-name "MQRankSum-12.5" \
+		-filter "ReadPosRankSum < -8.0" --filter-name "ReadPosRankSum-8" \
+		-O $filtered_OUTDIR/biallelic_snp_filtered.vcf.gz
+		
+FilteredVCF=$filtered_OUTDIR/biallelic_snp_filtered.vcf.gz	
+		
+vcftools --gzvcf $FilteredVCF \
+	--exclude-bed $REFDIR/galGal6.masked.bed \
+	--recode --recode-INFO-all --out $OUTDIR/filtered_masked
+	
+	
+python3 $scriptsDIR/get_pass.py $OUTDIR/filtered_masked.recode.vcf  $OUTDIR/pass.vcf
+
+python3 missing0.9.py $OUTDIR/pass.vcf $OUTDIR/input.vcf
+
+#bgzip $OUTDIR/input.vcf
+#tabix $OUTDIR/input.vcf.gz
+
+
+
