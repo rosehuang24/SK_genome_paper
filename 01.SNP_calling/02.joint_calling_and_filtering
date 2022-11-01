@@ -58,8 +58,8 @@ python3 $scriptsDIR/get_pass.py $OUTDIR/filtered_masked.recode.vcf  $OUTDIR/pass
 
 python3 missing0.9.py $OUTDIR/pass.vcf $OUTDIR/input.vcf
 
-#bgzip $OUTDIR/input.vcf
-#tabix $OUTDIR/input.vcf.gz
+bgzip $OUTDIR/input.vcf
+tabix $OUTDIR/input.vcf.gz
 
 
 
