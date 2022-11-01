@@ -15,7 +15,7 @@ for lines in inh:
             gt=str(indv).split(":")[0]
             if gt=="./.":
                 m+=1
-        if m<11:
+        if m<11: #0.9 for 107 is 10.7, thus we need no more than 11 missing
             outh.write(lines)
 
 
