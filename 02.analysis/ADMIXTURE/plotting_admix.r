@@ -22,20 +22,6 @@ kp7<-c("#009E73", "#56B4E9", "#CC79A7", "#F0E442", "#D55E00", "#0072B2", "#E69F0
 kp8_1<-c("#009E73","#CC79A7", "#999999", "#D55E00", "#F0E442", "#0072B2", "#56B4E9", "#E69F00")
 kp8<-c("#009E73", "#D55E00", "#999999","#CC79A7", "#56B4E9", "#F0E442", "#0072B2", "#E69F00")
 
-#level_order <-c("WLH","SK","WHYC","LX","TLF","YNLC","YVC","TBC","DULO","RJF")
-
-#tbl<- read.table("results/input.3.py0.9.for_admix.4.result.table", header = FALSE)
-
-#tbl<-tbl %>%arrange(factor(V2, levels = level_order), -V1)
-
-#tbl%>%filter(V2="RJF")
-
-#tm<-tbl%>%select(-V1, -V2)
-
-#m<-as.matrix(tm)
-#rownames(m)<-tbl$V2
-
-#barplot(t(m),col= kp8,xlab="Individual", ylab="Ancestry",border = NA,space = 0.1)
 
 library(ggplot2)
 library(tidyverse)
@@ -44,15 +30,12 @@ library(dplyr)
 library(reshape2)
 
 level_order <-c("WLH","SK","WHYC","LX","TLF","YNLC","YVC","TBC","DULO","RJF")
-#level_order <-c("WLH","SK","WHYC","LX","TLF","YNLC","YVC","TBC","DULO","L7","L8","L9","L0","W1","W2","W3","W4","W5")
 
-#tbl<- read.table("results/input.3.py0.9.for_admix.4.result.table", header = FALSE)
-#tbl<- read.table("result_RJFparted/input.3.py0.9.for_admix.7.result.table", header = FALSE)
 tbl <-read.table("input4/input.4.for_admix.pruned.8.result.table", header = FALSE)
 
 tbl <- melt(tbl, id=c("V1","V2"))
 tbl<- tbl%>%rename(indv=V1, breed=V2,anc = variable)
-#%>%arrange(as.character(breed,levels=level_order), indv)
+
 
 ##K8 for example
 pdf(file = "K8.input.4.squished.pdf", width = 20,height =1.81) 
@@ -61,7 +44,6 @@ p <- ggplot(tbl, aes(indv,value)) +
   geom_col(aes(fill=anc), width = 1,
            position="fill")+
   scale_fill_manual(values = kp8)+
- # guides(fill = guide_legend(title = ""))+
   labs(x=" ", y="K = 8")+
   coord_cartesian(expand = FALSE)+
   theme_bw()+
