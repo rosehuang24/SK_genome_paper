@@ -1,0 +1,23 @@
+#!/bin/bash
+
+source ~/.bash_profile
+module load gatk/4.0.2.0
+
+ref_genome=$REFDIR/Gallus_gallus.GRCg6a.dna.toplevel.fa
+ref_bwa=$REFDIR/RefSeq
+dbsnp=$REFDIR/newdbSNP.vcf.gz
+
+mkdir tmp_dir
+
+gatk GenomicsDBImport -R $ref_genome \
+    -V /<path>/indv1.g.vcf.gz \
+    #...
+    -V /<path>/indv107.g.vcf.gz \
+   
+
+
+gatk --java-options -Xmx40G GenotypeGVCFs -R $ref_genome \
+	-V gendb://my_database_${regionname} \
+	-O $OUTDIR/output_${regionname}.vcf.gz \
+	--TMP_DIR /storage/zhenyingLab/huangruoshi/256/tmp_dir_${regionname}
+
