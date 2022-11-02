@@ -1,0 +1,8 @@
+LH03	other
+LH04	other
+LH05	other
+LH06	other
+Clean_01	SK
+Clean_02	SK
+Clean_03	SK
+Clean_04	SK
