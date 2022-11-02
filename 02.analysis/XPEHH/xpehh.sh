@@ -25,6 +25,6 @@ selscan --xpehh --vcf $OUTDIR/IDG_phased.vcf \
                 --map $mapfile \
                 --out $OUTDIR/SK_IDG_input.4.chr${SLURM_ARRAY_TASK_ID}
                 
-
+###Calculate the average per window using command line.
                 
                 
