@@ -32,7 +32,7 @@ pixy --stats fst \
 	--window_size 20000 \
 	--interval_start ${startpos} \
 	--interval_end ${endpos} \
-         --output_folder results/ \
+        --output_folder results/ \
 	--output_prefix fst_SKvs75DC
 
 
@@ -43,7 +43,7 @@ pixy --stats pi \
 	--window_size 20000 \
 	--interval_start ${startpos} \
 	--interval_end ${endpos} \
-         --output_folder results/ \
+        --output_folder results/ \
 	--output_prefix pi_$pop
 
 
