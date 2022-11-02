@@ -1,4 +1,3 @@
-setwd("/Users/yourhighness/Desktop/Stats/good_window_overlap/45273/")
 library(ggplot2)
 library(dplyr)
 library(ggrepel)
