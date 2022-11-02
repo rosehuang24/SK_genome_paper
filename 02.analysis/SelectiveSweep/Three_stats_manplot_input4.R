@@ -1,5 +1,3 @@
-setwd("~/Desktop/Stats/good_window_overlap/45273/")
-#setwd("/Users/yourhighness/Desktop/Stats/good_window_overlap/SKvs75DC")
 library(ggplot2)
 library(dplyr)
 library(ggrepel)
@@ -8,26 +6,13 @@ library(ggrepel)
 
 #do <-read.delim("", header = FALSE, col.names = c("chrm","start","end"))
 
-df<- read.delim("all.three.45273.x.r.f.bed", header = FALSE, col.names = c("chrm","start","end","x","Zxpehh","ratio","Zratio","fst","Zfst"))
+df<- read.delim("all.three.45273.x.r.f.bed", header = TRUE)
 df$chrm=factor(as.character(df$chrm), levels=paste0(c(1:28)))
 levels(df$chrm)
 
 df <- df[order(df[,1]),]
 
-#df$lr <- -log(df$ratio)
-#df<-df %>% filter_all(all_vars(!is.infinite(.)))
-#df$Zlr<-(df$lr-mean(df$lr))/sd(df$lr)
-#df$rr<- 1/df$ratio
-#df<-df %>% filter_all(all_vars(!is.infinite(.)))
-
-#df$Zrr<-(df$rr-mean(df$rr))/sd(df$rr)
-
 d <-data.frame(chr = df$chrm, bp = df$start, ZFst = df$Zfst, Zratio = df$Zratio, Zxp_ehh = df$Zxpehh)
-
-#sum(d$Fst<0)
-#d$Zfst <- (d$Fst-mean(d$Fst))/sd(d$Fst)
-
-
 
 d$pos <- NA
 d$index <- NA
@@ -48,10 +33,6 @@ for(i in unique(d$index)){
   }
 }
 
-#d$lastbase <- d$pos-d$bp
-#print(unique(d$lastbase))
-#cat(unique(d$lastbase), file = "laste_base.txt", sep = '\n')
-
 
 d$cc <-NA
 for (i in unique(d$index)){
@@ -62,8 +43,8 @@ for (i in unique(d$index)){
 col.list=c("sandybrown","royalblue3")
 h=3.3528#Fst
 h=3.0119#x
+h=-3.0573#r
 
-h=-3.0573
 #plot dimension:
 #pdf(file = "Manplot_ratio.pdf", width = 20,height =6) 
 
