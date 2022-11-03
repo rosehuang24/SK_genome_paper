@@ -7,4 +7,4 @@ For selective sweep analysis, we utilized three different approaches:
 All three of them are done in a window approach. Windows with poor quality were removed from the analysis (less than 5 snps and/or have more than 50% missing calls)
 Such step can be done with ```awk```
 
-To use the scripts in this folder, you'll will need the windows that pass the filters and has all three stats and their Zscores in tab-delim format. See ```three_stat_xrf.bed``` as example
+To use the scripts in this folder, you'll will need the windows that pass the filters and has all three stats and their Zscores in tab-delim format (see ```z.R```). See ```three_stat_xrf.bed``` as example
