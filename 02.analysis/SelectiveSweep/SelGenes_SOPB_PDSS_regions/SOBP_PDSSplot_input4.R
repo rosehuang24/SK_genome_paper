@@ -1,4 +1,4 @@
-setwd("~/Desktop/Stats/SelGenes/SOBP_PDSS_input4//")
+
 library(ggplot2)
 library(dplyr)
 library(reshape2)
