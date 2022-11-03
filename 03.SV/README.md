@@ -81,5 +81,5 @@ combine_intervals.py
 ## 5. Find Overlaps among Different Methods. (Remember to combine after every command)
 	/usr/local/bedtools2/bin/bedtools intersect -a lumpy60_sk_intraX_auto.bed -b manta60_sk_intraX_auto.bed -wa -wb -f 0.95 -F 0.95 > lumpy.manta.60_sk_intraX_auto.bed2
 	# Repeat for diffferent methods combinations and get a final bed. 
-The result will contain SVs only detected by all three methods.
+The result will contain SVs only detected by at least two methods.
 
