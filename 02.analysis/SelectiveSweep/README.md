@@ -8,3 +8,7 @@ All three of them are done in a window approach. Windows with poor quality were 
 Such step can be done with ```awk```
 
 To use the scripts in this folder, you'll will need the windows that pass the filters and has all three stats and their Zscores in tab-delim format (see ```z.R```). See ```three_stat_xrf.bed``` as example
+
+
+
+to extract genes in the selective region, we simply used ```bedtools -intersect``` on the region bed file with gff file.
