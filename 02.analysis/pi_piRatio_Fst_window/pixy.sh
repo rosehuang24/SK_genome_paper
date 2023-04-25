@@ -8,7 +8,7 @@ conda activate pixy
 
 vcftools --gzvcf <your_input_vcf> \
          --exclude-bed $REFDIR/galGal6.masked.bed \
-         --max-maf 0 --minQ 30 --remove-indels --max-missing 0.5 --min-meanDP 10  \
+         --max-maf 0 --remove-indels --max-missing 0.5 --min-meanDP 10  \
          --recode --recode-INFO-all --stdout | bgzip -c > snp_invariants.vcf.gz
 
 tabix snp_invariants.vcf.gz
